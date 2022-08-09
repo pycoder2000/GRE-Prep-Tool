@@ -13,21 +13,18 @@
 
 </div>
 
-![demo](https://github.com/pycoder2000/GRE-Prep-Tool/raw/main/Demo.png)
-<br>
-
 ## 🛠 Installation & Set Up
 
 1. Clone this repository
 
    ```sh
-   git clone https://github.com/pycoder2000/GRE-CLI-Prep.git
+   git clone https://github.com/pycoder2000/GRE-Prep-Tool.git
    ```
 
 2. Change directories
 
    ```sh
-   cd GRE-CLI-Prep
+   cd GRE-Prep-Tool
    ```
 
 3. Install dependencies
@@ -46,7 +43,7 @@
 5. Run Project
 
    ```sh
-   python vocab.py
+   python main.py
    ```
 
 6. Add alias to terminal(optional)
