@@ -17,36 +17,37 @@
 
 1. Clone this repository
 
-   ```sh
-   git clone https://github.com/pycoder2000/GRE-Prep-Tool.git
-   ```
+    ```sh
+    git clone https://github.com/pycoder2000/GRE-Prep-Tool.git
+    ```
 
 2. Change directories
 
-   ```sh
-   cd GRE-Prep-Tool
-   ```
+    ```sh
+    cd GRE-Prep-Tool
+    ```
 
 3. Install dependencies
 
-   ```sh
-   pip install -r requirements.txt
-   ```
+    ```sh
+    pip install -r requirements.txt
+    ```
 
 4. Open main.py and edit the following lines:
 
-   ```python
-   GREWordList = "<Location to Folder>/GRE-Prep-Tool/GREWordList.json"
-   VocabularyList = "<Location to Folder>/GRE-Prep-Tool/vocabulary.json"
-   TestedWordsList = "<Location to Folder>/GRE-Prep-Tool/TestedWords.json"
-   ```
+    ```python
+    GREWordList = "<Location to Folder>/GRE-Prep-Tool/GREWordList.json"
+    VocabularyList = "<Location to Folder>/GRE-Prep-Tool/vocabulary.json"
+    TestedWordsList = "<Location to Folder>/GRE-Prep-Tool/TestedWords.json"
+    ```
+
 5. Run Project
 
-   ```sh
-   python main.py
-   ```
+    ```sh
+    python main.py
+    ```
 
-6. Add alias to terminal(optional)
+6. Add alias to terminal (optional)
 
    ```sh
    # Add the line below to your .bashrc or .zshrc file (only on MacOS)
@@ -64,27 +65,22 @@
 ## ✨ Features
 
 1. **Vocabulary Addition** Add vocabulary lists from [vocabulary.com](vocabulary.com)
-
   - You can add as many vocab lists as you want. Just add the link and the scraper module will scrape the list and save it.
   - Currently 5 lists are added. Details provided in **Vocabulary Lists** section above.
 
 2. **Learn from lists**: Learn words from any of the provided lists
-
-	- An interactive learner is created to memorize the word meanings
-	- Store learnt vocabulary in TestedWords.json
+  - An interactive learner is created to memorize the word meanings  
+  - Store learnt vocabulary in TestedWords.json
 
 3. **Tests**: Take tests to memorize the word meanings
-
-	- Supports 4 different types of tests:
-		1. MCQ (Learnt Words)
-		2. MCQ (Random Words)
-		3. Written Test (Learnt Words)
-		4. Written Test (Random Words)
+  - Supports 4 different types of tests:
+   	1. MCQ (Learnt Words)
+   	2. MCQ (Random Words)
+   	3. Written Test (Learnt Words)
+   	4. Written Test (Random Words)
 
 4. **Word Search**: Search for any word in the vocabulary
-
-	- The vocabulary consists of all the words in all the lists.
-
+  - The vocabulary consists of all the words in all the lists.
 ## 🪜 Folder Structure
 
 ```bash
