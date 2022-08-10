@@ -90,8 +90,8 @@ def ScrapeAListFromVocabulary(url, ListName, length):
     
     for item in TempWordsList:
         TempDictionary = {}
-        TempDictionary['word'] = item['word']
-        TempDictionary['Definition'] = item['definition']
+        TempDictionary['word'] = item['word'].strip()
+        TempDictionary['Definition'] = item['definition'].strip()
 
         FinalWordsList.append(TempDictionary)
 
@@ -106,7 +106,7 @@ def ScrapeAListFromVocabulary(url, ListName, length):
         print("Unsuccessful! No words added!")
 
 def ScrapWordMeaning(word):
-    print("Word Added : ".format(word.strip()))
+    print("Word Added : {}".format(str(word)))
     URL = 'https://www.vocabulary.com/dictionary/' + str(word).strip()
     
     # Get the html content using requests
@@ -240,7 +240,7 @@ def Learn():
             print("\nInvalid choice! Enter numerical input.")
             NoOfWords = input("\nHow many words do you want to revise : ")
 
-    InteractiveLearner(Lists[ListChoice], NoOfWords)
+    InteractiveLearner(Lists[ListChoice-1], NoOfWords)
     return
 
 def MCQTestLearnt():
