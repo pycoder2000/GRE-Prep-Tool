@@ -6,14 +6,18 @@ import os
 import platform
 import datetime
 from pytz import timezone
-from bs4 import BeautifulSoup
 import calendar
+import time
+import csv
+from tabulate import tabulate
+from bs4 import BeautifulSoup
 
 #! IMP : Change these addresses to your directory location
 GREWordList = "/Users/parthdesai/lib/GRE-Prep-Tool/GREWordList.json"
 VocabularyList = "/Users/parthdesai/lib/GRE-Prep-Tool/vocabulary.json"
 TestedWordsList = "/Users/parthdesai/lib/GRE-Prep-Tool/TestedWords.json"
 StatsFile = "/Users/parthdesai/lib/GRE-Prep-Tool/Stats.txt"
+TestScoresFile = "/Users/parthdesai/lib/GRE-Prep-Tool/TestScores.csv"
 StartDate = "12/08/2022" # The day you start using this program in dd/mm/yyyy format
 
 def ClearOutput():
@@ -248,6 +252,27 @@ def Learn():
     InteractiveLearner(Lists[ListChoice-1], NoOfWords)
     return
 
+def SaveTestScores(TestName,Score,TimeTaken,TimeStamp):
+    try:
+        with open(TestScoresFile, 'a') as f:
+            writer = csv.writer(f)
+            writer.writerow([TestName,Score,TimeTaken,TimeStamp])
+            f.close()
+    except:
+        print("\nUnable to find TestScores.csv file. Please check the address again")
+        VocabDictionary = {}
+    return
+
+def ReadScores():
+    f = open(TestScoresFile, 'r')
+    scores = []
+    for line in f.readlines():
+        TestName,Score,TimeTaken,TimeStamp = line.strip().split(',')
+        Date,Time = TimeStamp.split(' ',1)
+        scores.append([TestName,Score,TimeTaken,Date,Time])
+    f.close()
+    return scores
+ 
 def MCQTestLearnt():
     ClearOutput()
     Heading("MCQ Test Revision")
@@ -286,6 +311,7 @@ def MCQTestLearnt():
     Incorrect = 0
     Answer = 0
     AnswerIndex = 0
+    StartTime = time.time()
     for i in range(NoOfQuestions):
         print("\n------------------------------------------------")
         RandomListName = random.choice(list(GlobalDictionary.keys()))
@@ -368,10 +394,19 @@ def MCQTestLearnt():
         input()
         ClearOutput()
     
+    EndTime = time.time()
+    
+    TimeTaken = time.strftime("%H:%M:%S", time.gmtime(EndTime - StartTime))
+    Score = "{}/{}".format(Correct, (Correct + Incorrect))
+    TimeStamp = datetime.datetime.now().strftime("%d/%m/%Y %I:%M %p")
+    SaveTestScores("MCQ (Learnt Words)",Score,TimeTaken,TimeStamp)
+    
     if Correct >= (Correct + Incorrect) / 2:
         print("\n-------------------------------------\n")
         print("        Final Score: {} / {}".format(Correct, (Correct + Incorrect)))
         print("\n      You passed the test 🤩")
+        print("\n-------------------------------------\n")
+        print("\n       Time Taken: {}".format(TimeTaken))
         print("\n-------------------------------------\n")
         input()
         ClearOutput()
@@ -381,6 +416,8 @@ def MCQTestLearnt():
         print("        Final Score: {} / {}".format(Correct, (Correct + Incorrect)))
         print("\n     You scored less than 50% 😢")
         print("\n       Try retaking the test 😊")
+        print("\n-------------------------------------\n")
+        print("\n       Time Taken: {}".format(TimeTaken))
         print("\n-------------------------------------\n")
         input()
         ClearOutput()
@@ -412,6 +449,7 @@ def MCQTestRandom():
     Incorrect = 0
     Answer = 0
     AnswerIndex = 0
+    StartTime = time.time()
     for i in range(NoOfQuestions):
         print("\n------------------------------------------------")
         RandomListName = random.choice(list(GlobalDictionary.keys()))
@@ -488,10 +526,19 @@ def MCQTestRandom():
         input()
         ClearOutput()
     
+    EndTime = time.time()
+    
+    TimeTaken = time.strftime("%H:%M:%S", time.gmtime(EndTime - StartTime))
+    Score = "{}/{}".format(Correct, (Correct + Incorrect))
+    TimeStamp = datetime.datetime.now().strftime("%d/%m/%Y %I:%M %p")
+    SaveTestScores("MCQ (Random Words)",Score,TimeTaken,TimeStamp)
+    
     if Correct >= (Correct + Incorrect) / 2:
         print("\n-------------------------------------\n")
         print("        Final Score: {} / {}".format(Correct, (Correct + Incorrect)))
         print("\n      You passed the test 🤩")
+        print("\n-------------------------------------\n")
+        print("\n       Time Taken: {}".format(TimeTaken))
         print("\n-------------------------------------\n")
         input()
         ClearOutput()
@@ -501,6 +548,8 @@ def MCQTestRandom():
         print("        Final Score: {} / {}".format(Correct, (Correct + Incorrect)))
         print("\n     You scored less than 50% 😢")
         print("\n       Try retaking the test 😊")
+        print("\n-------------------------------------\n")
+        print("\n       Time Taken: {}".format(TimeTaken))
         print("\n-------------------------------------\n")
         input()
         ClearOutput()
@@ -543,6 +592,7 @@ def WrittenTestLearnt():
     Count = 0
     WrongAnswers = {}
 
+    StartTime = time.time()
     for word in TestWords:
         print("\n-------------------------------------")
         print('\nWhat word descibes "{}"?'.format(WordDictionary[word].strip()))
@@ -566,10 +616,19 @@ def WrittenTestLearnt():
         input()
         ClearOutput()
 
+    EndTime = time.time()
+    
+    TimeTaken = time.strftime("%H:%M:%S", time.gmtime(EndTime - StartTime))
+    ScoreString = "{}/{}".format(Score, Count)
+    TimeStamp = datetime.datetime.now().strftime("%d/%m/%Y %I:%M %p")
+    SaveTestScores("Written Test (Learnt Words)",ScoreString,TimeTaken,TimeStamp)
+    
     if Score >= Count / 2:
         print("\n-------------------------------------\n")
         print("        Final Score: {} / {}".format(Score, Count))
         print("\n      You passed the test 🤩")
+        print("\n-------------------------------------\n")
+        print("\n       Time Taken: {}".format(TimeTaken))
         print("\n-------------------------------------\n")
         input()
     else:
@@ -577,6 +636,8 @@ def WrittenTestLearnt():
         print("        Final Score: {} / {}".format(Score, Count))
         print("\n     You scored less than 50% 😢")
         print("\n       Try retaking the test 😊")
+        print("\n-------------------------------------\n")
+        print("\n       Time Taken: {}".format(TimeTaken))
         print("\n-------------------------------------\n")
         input()
     
@@ -615,6 +676,7 @@ def WrittenTestRandom():
     Count = 0
     WrongAnswers = {}
 
+    StartTime = time.time()
     for i in range(NoOfQuestions):
         RandomListName = random.choice(list(GlobalDictionary.keys()))
         RandomDictionary = random.choice(GlobalDictionary[RandomListName])
@@ -643,10 +705,19 @@ def WrittenTestRandom():
         input()
         ClearOutput()
 
+    EndTime = time.time()
+    
+    TimeTaken = time.strftime("%H:%M:%S", time.gmtime(EndTime - StartTime))
+    ScoreString = "{}/{}".format(Score, Count)
+    TimeStamp = datetime.datetime.now().strftime("%d/%m/%Y %I:%M %p")
+    SaveTestScores("Written Test (Random Words)",ScoreString,TimeTaken,TimeStamp)
+    
     if Score >= Count / 2:
         print("\n-------------------------------------\n")
         print("        Final Score: {} / {}".format(Score, Count))
         print("\n      You passed the test 🤩")
+        print("\n-------------------------------------\n")
+        print("\n       Time Taken: {}".format(TimeTaken))
         print("\n-------------------------------------\n")
         input()
     else:
@@ -654,6 +725,8 @@ def WrittenTestRandom():
         print("        Final Score: {} / {}".format(Score, Count))
         print("\n     You scored less than 50% 😢")
         print("\n       Try retaking the test 😊")
+        print("\n-------------------------------------\n")
+        print("\n       Time Taken: {}".format(TimeTaken))
         print("\n-------------------------------------\n")
         input()
     
@@ -724,7 +797,7 @@ def StreakCalendar(streak_days):
     today = datetime.datetime.today().date()
     count = 1
 
-    print("\t   {} {}".format(monthString, year))
+    print("  Streak Calendar - {} {}".format(monthString, year))
     print()
     print("Mon  Tue  Wed  Thu  Fri  Sat  Sun")
     for x in cal.itermonthdays(int(year), int(month)):
@@ -747,12 +820,16 @@ def StreakCalendar(streak_days):
 
 def Stats(DaysPassed = None,streak = None,max_streak = None, streak_days = []):
     ClearOutput()
+    headers = ["Test Type", "Score", "Time Taken", "Date", "Time"]
+    scores = ReadScores()
     print("\n-----------------------------------")
     print("\n  Days Passed {} | Current Streak {}".format(DaysPassed,streak))
     print("\n-----------------------------------")
     print("\n  Your highest streak is {} days.".format(max_streak))
     print("\n-----------------------------------\n")
     StreakCalendar(streak_days)
+    print("\n-----------------------------------\n")
+    print(tabulate(scores, headers=headers, tablefmt='fancy_grid'))
     input()
     ClearOutput()
     return
@@ -779,7 +856,7 @@ def ReadValues():
     StatsMaxStreak = 0
     StatsStreakDaysString = ""
     StatsStreakDays = []
-    f = open("/Users/parthdesai/lib/GRE-Prep-Tool/Stats.txt", 'r')
+    f = open(StatsFile, 'r')
     for line in f.readlines():
         if line.startswith("StartDate"):
             StatsStartDate = line.split("=")[1].strip().strip('"')
@@ -830,6 +907,8 @@ def main():
         StatsMaxStreak = 1
         StatsStreakDays.append(int(TodayDateObject.day))
         WriteValues(StatsStartDate,StatsCount,StatsTodayDateString,StatsStreak,StatsMaxStreak,StatsStreakDays)
+        f = open(TestScoresFile, "w+")
+        f.close()
     else:
         if TodayDateString != StatsTodayDateString:
             StatsTodayDateString = TodayDateString
