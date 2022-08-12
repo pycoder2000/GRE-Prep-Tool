@@ -3,8 +3,8 @@
 </h1>
 
 <p align="center">
-  A simple tool to prepare for GRE using Command Line Terminal<br><br>
-  The word lists are provided by <a href="https://www.vocabulary.com/lists/">Vocabulary.com</a>. This project is an updated and working version of <a href="https://github.com/itsShnik/gre-preparation-tool">this Github project</a>.
+  A powerful tool to prepare for GRE using Command Line Terminal<br><br>
+  The word lists are provided by <a href="https://www.vocabulary.com/lists/">Vocabulary.com</a>.
 </p>
 
 <div align="center">
@@ -12,6 +12,8 @@
 [![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)](https://forthebadge.com)
 
 </div>
+
+![Demo](https://github.com/pycoder2000/GRE-Prep-Tool/blob/main/Demo.png?raw=True)
 
 ## 🛠 Installation & Set Up
 
@@ -39,15 +41,24 @@
     GREWordList = "<Location to Folder>/GRE-Prep-Tool/GREWordList.json"
     VocabularyList = "<Location to Folder>/GRE-Prep-Tool/vocabulary.json"
     TestedWordsList = "<Location to Folder>/GRE-Prep-Tool/TestedWords.json"
+    StatsFile = "<Location to Folder>/GRE-Prep-Tool/Stats.txt"
+    TestScoresFile = "<Location to Folder>/GRE-Prep-Tool/TestScores.csv"
     ```
 
-5. Run Project
+5. Open main.py and edit the `StartDate`:
+
+    ```python
+    # The day you start using this program in dd/mm/yyyy format
+    StartDate = "dd/mm/yyyy"
+    ```
+
+6. Run Project
 
     ```sh
     python main.py
     ```
 
-6. Add alias to terminal (optional)
+7. Add alias to terminal (optional)
 
    ```sh
    # Add the line below to your .bashrc or .zshrc file (only on MacOS)
@@ -61,12 +72,14 @@
 3. Barrons 333
 4. 900+ Essential GRE Words
 5. Word Power Made Easy
+6. GRE101
+7. High Frequency Words
 
 ## ✨ Features
 
 1. **Vocabulary Addition** Add vocabulary lists from [vocabulary.com](vocabulary.com)
   - You can add as many vocab lists as you want. Just add the link and the scraper module will scrape the list and save it.
-  - Currently 5 lists are added. Details provided in **Vocabulary Lists** section above.
+  - Currently 7 lists are added. Details provided in **Vocabulary Lists** section above.
 
 2. **Learn from lists**: Learn words from any of the provided lists
   - An interactive learner is created to memorize the word meanings  
@@ -78,19 +91,34 @@
    	2. MCQ (Random Words)
    	3. Written Test (Learnt Words)
    	4. Written Test (Random Words)
+  - Also track the time taken to complete the tests.
 
 4. **Word Search**: Search for any word in the vocabulary
   - The vocabulary consists of all the words in all the lists.
+
+5. **Stats**: Display the statistics of your performance
+  - You can look at your Streak Calendar which shows the dates when you practiced.
+  - Maintain streaks
+  - Get detailed analysis of the score and time taken for every test and compare your performance
+
 ## 🪜 Folder Structure
 
 ```bash
 📦 GRE-Prep-Tool
-├── 📝 GREWordList.json
-├── 📝 TestedWords.json
-├── 📝 requirements.txt 
-├── 📝 vocabulary.json
-└── 📝 main.py
+├── 📝 GREWordList.json       # Contains the list of words categorized by their list names
+├── 📝 TestedWords.json       # Contains the list of words that you have learnt
+├── 📝 TestScores.csv         # Contains the test scores
+├── 📝 requirements.txt       # Contains the requirements needed for running this project
+├── 📝 Stats.txt              # Contains Streak information
+├── 📝 vocabulary.json        # Contains all the words in the vocabulary
+└── 📝 main.py                # Driver code for the program
 ```
+
+## 📍 RoadMap
+- [ ] Charts to compare performance
+- [ ] Create %tile score based on performance
+- [ ] Universities available with the score range
+- [ ] Ability to remove words from TestedWords.json
 
 ## 🔗 Links
 
@@ -124,3 +152,7 @@ If you have a suggestion that would make this better, please fork the repo and c
 
 **Don't forget to give the project a star! Thanks again!**
 </div>
+
+## 🎉 Thanks
+
+This project is an highly modified and working version of [this Github project](https://github.com/itsShnik/gre-preparation-tool).
