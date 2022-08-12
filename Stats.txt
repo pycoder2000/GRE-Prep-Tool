@@ -1,0 +1,6 @@
+StartDate = "12/08/2022"
+Count = 8
+Today = "21/08/2022"
+Streak = 1
+MaxStreak = 4
+StreakDays = 12,13,14,16,17,18,19,21

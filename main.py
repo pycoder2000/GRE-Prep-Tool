@@ -4,12 +4,17 @@ import json
 import sys
 import os
 import platform
+import datetime
+from pytz import timezone
 from bs4 import BeautifulSoup
+import calendar
 
 #! IMP : Change these addresses to your directory location
 GREWordList = "/Users/parthdesai/lib/GRE-Prep-Tool/GREWordList.json"
 VocabularyList = "/Users/parthdesai/lib/GRE-Prep-Tool/vocabulary.json"
 TestedWordsList = "/Users/parthdesai/lib/GRE-Prep-Tool/TestedWords.json"
+StatsFile = "/Users/parthdesai/lib/GRE-Prep-Tool/Stats.txt"
+StartDate = "12/08/2022" # The day you start using this program in dd/mm/yyyy format
 
 def ClearOutput():
     MyOS = platform.system()
@@ -710,6 +715,48 @@ def VocabularyLength():
     ClearOutput()
     return
 
+def StreakCalendar(streak_days):
+    cal = calendar.Calendar()
+    mydate = datetime.datetime.now()
+    month = mydate.strftime("%m")
+    monthString = mydate.strftime("%B")
+    year = mydate.strftime("%Y")
+    today = datetime.datetime.today().date()
+    count = 1
+
+    print("\t   {} {}".format(monthString, year))
+    print()
+    print("Mon  Tue  Wed  Thu  Fri  Sat  Sun")
+    for x in cal.itermonthdays(int(year), int(month)):
+        if x == 0:
+            print("   ", end='  ')
+        elif(len(str(x)) == 1):
+                if(x in streak_days):
+                    print(" •{}".format(x), end='  ')
+                else:
+                    print("  {}".format(x), end='  ')
+        else:
+            if(x in streak_days):
+                print("•{}".format(x), end='  ')
+            else:
+                print(" {}".format(x), end='  ')
+        count += 1
+        if count == 8:
+            print()
+            count = 1
+
+def Stats(DaysPassed = None,streak = None,max_streak = None, streak_days = []):
+    ClearOutput()
+    print("\n-----------------------------------")
+    print("\n  Days Passed {} | Current Streak {}".format(DaysPassed,streak))
+    print("\n-----------------------------------")
+    print("\n  Your highest streak is {} days.".format(max_streak))
+    print("\n-----------------------------------\n")
+    StreakCalendar(streak_days)
+    input()
+    ClearOutput()
+    return
+
 def PrintMenu():
     print("------------------------------------")
     print("Please enter a number: ")
@@ -720,19 +767,94 @@ def PrintMenu():
     print("5. Update the local vocabulary")
     print("6. Search for a word")
     print("7. Vocabulary length")
-    print("8. Exit")
+    print("8. Stats")
+    print("9. Exit")
     print("------------------------------------")
+
+def ReadValues():
+    StatsStartDate = ""
+    StatsCount = 0
+    StatsTodayDateString = ""
+    StatsStreak = 0
+    StatsMaxStreak = 0
+    StatsStreakDaysString = ""
+    StatsStreakDays = []
+    f = open("/Users/parthdesai/lib/GRE-Prep-Tool/Stats.txt", 'r')
+    for line in f.readlines():
+        if line.startswith("StartDate"):
+            StatsStartDate = line.split("=")[1].strip().strip('"')
+        elif line.startswith("Count"):
+            StatsCount = line.split("=")[1].strip()
+        elif line.startswith("Today"):
+            StatsTodayDateString = line.split("=")[1].strip().strip('"')
+        elif line.startswith("Streak = "):
+            StatsStreak = line.split("=")[1].strip()
+        elif line.startswith("MaxStreak"):
+            StatsMaxStreak = line.split("=")[1].strip()
+        elif line.startswith("StreakDays"):
+            StatsStreakDaysString = line.split("=")[1].strip()
+            for i in StatsStreakDaysString.split(","):
+                if(i != "") and (i != " "):
+                    StatsStreakDays.append(int(i))
+        else:
+            continue
+    f.close()
+    
+    return str(StatsStartDate),int(StatsCount),str(StatsTodayDateString),int(StatsStreak),int(StatsMaxStreak),StatsStreakDays
+
+def WriteValues(StatsStartDate,StatsCount,StatsTodayDateString,StatsStreak,StatsMaxStreak,StatsStreakDays):
+    StatsStreakDaysString = ','.join(map(str, StatsStreakDays))
+    f = open(StatsFile, 'w')
+    f.write('StartDate = "{}"\nCount = {}\nToday = "{}"\nStreak = {}\nMaxStreak = {}\nStreakDays = {}'.format(StatsStartDate,StatsCount,StatsTodayDateString,StatsStreak,StatsMaxStreak,StatsStreakDaysString))
+    f.close()
+    return
 
 def main():
     ClearOutput()
     print("\nWelcome to the GRE World!")
     
-    while(True):
+    # It's a new day
+    StatsStartDate,StatsCount,StatsTodayDateString,StatsStreak,StatsMaxStreak,StatsStreakDays = ReadValues()
+    StatsTodayDateObject = datetime.datetime.strptime(StatsTodayDateString, '%d/%m/%Y')
+    StartDateObject = datetime.datetime.strptime(StartDate, '%d/%m/%Y')
+    TodayDateString = datetime.datetime.now(timezone('Asia/Kolkata')).strftime('%d/%m/%Y')
+    TodayDateObject = datetime.datetime.strptime(TodayDateString, '%d/%m/%Y')
+    DaysPassed = (TodayDateObject - StartDateObject).days
+    
+    if str(StatsStartDate) != StartDate:
+        StatsStreakDays = []
+        StatsStartDate = StartDate
+        StatsTodayDateString = str(TodayDateString)
+        StatsCount = 1
+        StatsStreak = 1
+        StatsMaxStreak = 1
+        StatsStreakDays.append(int(TodayDateObject.day))
+        WriteValues(StatsStartDate,StatsCount,StatsTodayDateString,StatsStreak,StatsMaxStreak,StatsStreakDays)
+    else:
+        if TodayDateString != StatsTodayDateString:
+            StatsTodayDateString = TodayDateString
+            
+            StatsCount += 1
+            if((TodayDateObject - StatsTodayDateObject).days > 1):
+                print("You broke the streak 😞")
+                StatsStreak = 1
+            elif((TodayDateObject - StatsTodayDateObject).days == 1):
+                StatsStreak = StatsStreak + 1
+                if StatsStreak > StatsMaxStreak:
+                    StatsMaxStreak = StatsStreak
+            else:
+                StatsStreak = 1
+            
+            if TodayDateObject.day not in StatsStreakDays:
+                StatsStreakDays.append(TodayDateObject.day)
+            
+            WriteValues(StatsStartDate,StatsCount,StatsTodayDateString,StatsStreak,StatsMaxStreak,StatsStreakDays)
+
+    while(True):    
         print("\nTell us What would you like to do")
         print()
         PrintMenu()
         choice = input("\nEnter your choice: ")
-
         
         if choice.isnumeric():
             choice = int(choice)
@@ -783,6 +905,8 @@ def main():
             elif choice == 7:
                 VocabularyLength()
             elif choice == 8:
+                Stats(DaysPassed,StatsStreak,StatsMaxStreak, StatsStreakDays)
+            elif choice == 9:
                 ClearOutput()
                 sys.exit()
             else:
@@ -797,4 +921,3 @@ def main():
 
 if __name__=='__main__':
     main()
-
