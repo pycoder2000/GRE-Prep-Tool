@@ -836,7 +836,6 @@ def main():
             
             StatsCount += 1
             if((TodayDateObject - StatsTodayDateObject).days > 1):
-                print("You broke the streak 😞")
                 StatsStreak = 1
             elif((TodayDateObject - StatsTodayDateObject).days == 1):
                 StatsStreak = StatsStreak + 1
@@ -846,8 +845,13 @@ def main():
                 StatsStreak = 1
             
             if TodayDateObject.day not in StatsStreakDays:
-                StatsStreakDays.append(TodayDateObject.day)
-            
+                if(all(x < TodayDateObject.day for x in StatsStreakDays)):
+                    StatsStreakDays.append(TodayDateObject.day)
+                else:
+                    StatsStreakDays = [TodayDateObject.day]
+            else:
+                StatsStreakDays = [TodayDateObject.day]
+
             WriteValues(StatsStartDate,StatsCount,StatsTodayDateString,StatsStreak,StatsMaxStreak,StatsStreakDays)
 
     while(True):    
