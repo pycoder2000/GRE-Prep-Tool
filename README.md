@@ -115,10 +115,17 @@
 ```
 
 ## 📍 RoadMap
+- [x] Fix Scraping from Vocabulary.com
+- [x] Add more tests
+- [x] Track time taken for tests
+- [x] Add statistics for tests
+- [x] Add daily streak
+- [x] Clean and refactor code
+- [x] Add feature to save test scores
+- [x] Ability to remove words from TestedWords.json
 - [ ] Charts to compare performance
 - [ ] Create %tile score based on performance
 - [ ] Universities available with the score range
-- [ ] Ability to remove words from TestedWords.json
 
 ## 🔗 Links
 
