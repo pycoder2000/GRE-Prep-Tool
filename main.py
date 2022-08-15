@@ -760,6 +760,36 @@ def UpdateVocabulary():
     ClearOutput()
     return
 
+def RemoveTestedWords():
+    ClearOutput()
+    Heading("Remove Tested Words")
+    print("\nIf you feel like you have completely memorized a word in the Tested Words list, you can remove it here.")
+    word = input("\nWhich word would you like to remove (Type L for the entire list): ").lower()
+    
+    f = open(TestedWordsList,'r')
+    data = json.load(f)
+    f.close()
+
+    if word == "l":
+        for word in data.keys():
+            print(word.strip())
+        word = input("\nWhich word would you like to remove (Type L for the entire list): ").lower()
+    
+    if word in data.keys():
+        f = open(TestedWordsList, 'w')
+        RemovedWord = data.pop(word)
+        json.dump(data, f)
+        print('\n"{}" was successfully removed.'.format(word))
+        f.close()
+        input()
+    else:
+        print('\n"{}" was not found in the list.'.format(word))
+        print('\nPlease check the spelling and try again.')
+        input()
+
+    ClearOutput()
+    return
+
 def SearchInVocabulary(String = None):
     ClearOutput()
     Heading("Search In Vocabulary")
@@ -842,10 +872,11 @@ def PrintMenu():
     print("3. Learn from a list")
     print("4. Take a test")
     print("5. Update the local vocabulary")
-    print("6. Search for a word")
-    print("7. Vocabulary length")
-    print("8. Stats")
-    print("9. Exit")
+    print("6. Remove words from Tested Words")
+    print("7. Search for a word")
+    print("8. Vocabulary length")
+    print("9. Statistics")
+    print("10. Exit")
     print("------------------------------------")
 
 def ReadValues():
@@ -934,7 +965,7 @@ def main():
             WriteValues(StatsStartDate,StatsCount,StatsTodayDateString,StatsStreak,StatsMaxStreak,StatsStreakDays)
 
     while(True):    
-        print("\nTell us What would you like to do")
+        print("\nTell us what would you like to do")
         print()
         PrintMenu()
         choice = input("\nEnter your choice: ")
@@ -984,12 +1015,14 @@ def main():
             elif choice == 5:
                 UpdateVocabulary()
             elif choice == 6:
-                SearchInVocabulary()
+                RemoveTestedWords()
             elif choice == 7:
-                VocabularyLength()
+                SearchInVocabulary()
             elif choice == 8:
-                Stats(DaysPassed,StatsStreak,StatsMaxStreak, StatsStreakDays)
+                VocabularyLength()
             elif choice == 9:
+                Stats(DaysPassed,StatsStreak,StatsMaxStreak, StatsStreakDays)
+            elif choice == 10:
                 ClearOutput()
                 sys.exit()
             else:
