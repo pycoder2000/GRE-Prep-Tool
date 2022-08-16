@@ -1,6 +1,6 @@
-StartDate = "12/08/2022"
-Count = 3
-Today = "15/08/2022"
+StartDate = "15/08/2022"
+Count = 2
+Today = "16/08/2022"
 Streak = 2
 MaxStreak = 2
-StreakDays = 12,14,15
+StreakDays = 15,16
