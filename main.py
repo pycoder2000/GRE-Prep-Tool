@@ -9,6 +9,7 @@ from pytz import timezone
 import calendar
 import time
 import csv
+import plotext as plt
 from tabulate import tabulate
 from bs4 import BeautifulSoup
 
@@ -18,7 +19,7 @@ VocabularyList = "/Users/parthdesai/lib/GRE-Prep-Tool/vocabulary.json"
 TestedWordsList = "/Users/parthdesai/lib/GRE-Prep-Tool/TestedWords.json"
 StatsFile = "/Users/parthdesai/lib/GRE-Prep-Tool/Stats.txt"
 TestScoresFile = "/Users/parthdesai/lib/GRE-Prep-Tool/TestScores.csv"
-StartDate = "12/08/2022" # The day you start using this program in dd/mm/yyyy format
+StartDate = "15/08/2022" # The day you start using this program in dd/mm/yyyy format
 
 def ClearOutput():
     MyOS = platform.system()
@@ -852,6 +853,15 @@ def Stats(DaysPassed = None,streak = None,max_streak = None, streak_days = []):
     ClearOutput()
     headers = ["Test Type", "Score", "Time Taken", "Date", "Time"]
     scores = ReadScores()
+    Days = []
+    NormalizedScores = []
+    if scores != []:
+        for score in scores:
+            ScoreNumerator = int(score[1].split("/")[0])
+            ScoreDenominator = int(score[1].split("/")[1])
+            NormalizedScores.append(float(ScoreNumerator / ScoreDenominator) * 100)
+            Days.append(int(score[3].split("/")[0]))
+    
     print("\n-----------------------------------")
     print("\n  Days Passed {} | Current Streak {}".format(DaysPassed,streak))
     print("\n-----------------------------------")
@@ -860,6 +870,25 @@ def Stats(DaysPassed = None,streak = None,max_streak = None, streak_days = []):
     StreakCalendar(streak_days)
     print("\n-----------------------------------\n")
     print(tabulate(scores, headers=headers, tablefmt='fancy_grid'))
+    print("\n-----------------------------------\n")
+    print("Your average score is {}%".format(round(sum(NormalizedScores) / len(NormalizedScores), 2)))
+    choice = input("\nWould you like to see your scores in a graph? (Y/N) : ").lower()
+    if choice == "y":
+        plt.theme('dark')
+        ymin, ymax = min(NormalizedScores), max(NormalizedScores)
+        plt.scatter(Days, NormalizedScores, marker='☯',color=118)
+        plt.title("Performance Chart")
+        plt.ylim(ymin, 1.05 * ymax)
+        plt.xlim(0, 32)
+        monthString = datetime.datetime.now().strftime("%B")
+        plt.xlabel('Scores for {}'.format(monthString))
+        xticks = [int(x) for x in range(1, 32, 2)]
+        xlabels = [("Day {}").format(x) for x in range(1, 32, 2)]
+        plt.xticks(xticks, xlabels)
+        plt.show()
+        print("\nPress Enter to continue")
+    else:
+        pass
     input()
     ClearOutput()
     return
