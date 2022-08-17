@@ -206,12 +206,21 @@ def InteractiveLearner(ListName = "Miscellaneous", NoOfWords = 20):
             else:
                 print("\nInvalid Choice! Press Enter to continue.")
                 input()
+    
+    ClearOutput()
+    print("--------------------------------------------------------")
+    print("\nWords we learnt today")
+    index = 0
+    for WordDictionary in RandomWordList:
+        index += 1
+        print("\n" + str(index) + ". " + WordDictionary['word'].strip() + '  ::  ' + WordDictionary['Definition'].strip())
 
     if TestedWords.__len__() > 1:
         f = open(TestedWordsList, 'w')
         json.dump(TestedWords, f)
         f.close()
     
+    input()
     ClearOutput()
     return
 
