@@ -5,6 +5,7 @@ import sys
 import os
 import platform
 import datetime
+from pathlib import Path
 from pytz import timezone
 import calendar
 import time
@@ -13,17 +14,18 @@ import plotext as plt
 from tabulate import tabulate
 from bs4 import BeautifulSoup
 
-#! IMP : Change these addresses to your directory location
-GREWordList = "/Users/parthdesai/lib/GRE-Prep-Tool/GREWordList.json"
-VocabularyList = "/Users/parthdesai/lib/GRE-Prep-Tool/vocabulary.json"
-TestedWordsList = "/Users/parthdesai/lib/GRE-Prep-Tool/TestedWords.json"
-StatsFile = "/Users/parthdesai/lib/GRE-Prep-Tool/Stats.txt"
-TestScoresFile = "/Users/parthdesai/lib/GRE-Prep-Tool/TestScores.csv"
+#! REMEMBER TO CHANGE THIS DATE TO START USING THIS PROGRAM
 StartDate = "15/08/2022" # The day you start using this program in dd/mm/yyyy format
+
+DataFolder = Path(__file__).parent.resolve()
+GREWordList = DataFolder / "GREWordList.json"
+VocabularyList = DataFolder / "vocabulary.json"
+TestedWordsList = DataFolder / "TestedWords.json"
+StatsFile = DataFolder / "Stats.txt"
+TestScoresFile = DataFolder / "TestScores.csv"
 
 def ClearOutput():
     MyOS = platform.system()
-
     if MyOS == "Windows":
         os.system("cls")
     elif MyOS == "Darwin":
@@ -1018,6 +1020,8 @@ def main():
         StatsStreakDays.append(int(TodayDateObject.day))
         WriteValues(StatsStartDate,StatsCount,StatsTodayDateString,StatsStreak,StatsMaxStreak,StatsStreakDays)
         f = open(TestScoresFile, "w+")
+        f.close()
+        f = open(TestedWordsList, "w+")
         f.close()
     else:
         if TodayDateString != StatsTodayDateString:
