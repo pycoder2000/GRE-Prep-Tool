@@ -71,28 +71,28 @@
 ## ✨ Features
 
 1. **Vocabulary Addition** Add vocabulary lists from [vocabulary.com](vocabulary.com)
-  - You can add as many vocab lists as you want. Just add the link and the scraper module will scrape the list and save it.
-  - Currently 7 lists are added. Details provided in **Vocabulary Lists** section above.
+   - You can add as many vocab lists as you want. Just add the link and the scraper module will scrape the list and save it.
+   - Currently 7 lists are added. Details provided in **Vocabulary Lists** section above.
 
 2. **Learn from lists**: Learn words from any of the provided lists
-  - An interactive learner is created to memorize the word meanings  
-  - Store learnt vocabulary in TestedWords.json
+   - An interactive learner is created to memorize the word meanings  
+   - Store learnt vocabulary in TestedWords.json
 
 3. **Tests**: Take tests to memorize the word meanings
-  - Supports 4 different types of tests:
-   	1. MCQ (Learnt Words)
-   	2. MCQ (Random Words)
-   	3. Written Test (Learnt Words)
-   	4. Written Test (Random Words)
-  - Also track the time taken to complete the tests.
+   - Supports 4 different types of tests:
+   	 1. MCQ (Learnt Words)
+   	 2. MCQ (Random Words)
+   	 3. Written Test (Learnt Words)
+   	 4. Written Test (Random Words)
+   - Also track the time taken to complete the tests.
 
 4. **Word Search**: Search for any word in the vocabulary
-  - The vocabulary consists of all the words in all the lists.
+   - The vocabulary consists of all the words in all the lists.
 
 5. **Stats**: Display the statistics of your performance
-  - You can look at your Streak Calendar which shows the dates when you practiced.
-  - Maintain streaks
-  - Get detailed analysis of the score and time taken for every test and compare your performance
+   - You can look at your Streak Calendar which shows the dates when you practiced.
+   - Maintain streaks
+   - Get detailed analysis of the score and time taken for every test and compare your performance
 
 ## 🪜 Folder Structure
 
