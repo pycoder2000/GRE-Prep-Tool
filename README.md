@@ -35,35 +35,28 @@
     pip install -r requirements.txt
     ```
 
-4. Open main.py and edit the following lines:
-
-    ```python
-    GREWordList = "<Location to Folder>/GRE-Prep-Tool/GREWordList.json"
-    VocabularyList = "<Location to Folder>/GRE-Prep-Tool/vocabulary.json"
-    TestedWordsList = "<Location to Folder>/GRE-Prep-Tool/TestedWords.json"
-    StatsFile = "<Location to Folder>/GRE-Prep-Tool/Stats.txt"
-    TestScoresFile = "<Location to Folder>/GRE-Prep-Tool/TestScores.csv"
-    ```
-
-5. Open main.py and edit the `StartDate`:
+4. > :warning: **Change this date**: Change this date to start using the Stats feature.
 
     ```python
     # The day you start using this program in dd/mm/yyyy format
     StartDate = "dd/mm/yyyy"
     ```
 
-6. Run Project
+5. Run Project
 
     ```sh
     python main.py
     ```
 
-7. Add alias to terminal (optional)
+    <details>
+    <summary>Add alias to terminal (optional)</summary>
 
-   ```sh
-   # Add the line below to your .bashrc or .zshrc file (only on MacOS)
-   alias gre = 'python <Location to Folder>/GRE-Prep-Tool/main.py'
-   ```
+    ```sh
+    # Add the line below to your .bashrc or .zshrc file (only on MacOS)
+    alias gre = 'python <Location to Folder>/GRE-Prep-Tool/main.py'
+    ```
+
+    </details>
 
 ## 📚 Vocabulary Lists
 
