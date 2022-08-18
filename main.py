@@ -161,14 +161,39 @@ def AddAList():
     input()
     ClearOutput()  
 
-def InteractiveLearner(ListName = "Miscellaneous", NoOfWords = 20):
+def InteractiveLearner(ListName = "Miscellaneous", NoOfWords = 20, OrderChoice = 1):
     '''
-    Randomly choose words from the mentioned list
+    1. Randomly choose words from the mentioned list
+    2. Choose words in a serial order from the mentioned list
     '''
     ClearOutput()
     print("Type 'exp' or 'e' for explanation")
 
-    RandomWordList = random.sample(GlobalDictionary[ListName], NoOfWords)
+    if OrderChoice == 1:
+        RandomWordList = random.sample(GlobalDictionary[ListName], NoOfWords)
+    else:
+        print('\nThe length of the "{}" is {}.'.format(ListName, len(GlobalDictionary[ListName])))
+        print('\nYou can start your revision from 1 to {} (inclusive).'.format(len(GlobalDictionary[ListName]) - NoOfWords + 1))
+
+        StartChoice = input("\nWhere do you want to start from (Leave empty for beginning or 1): ")
+        while True:
+            if StartChoice == "":
+                RandomWordList = GlobalDictionary[ListName][:NoOfWords]
+                break
+            elif StartChoice.isnumeric():
+                StartChoice = int(StartChoice)
+                if StartChoice == 0 or StartChoice == 1:
+                    RandomWordList = GlobalDictionary[ListName][:NoOfWords]
+                    break
+                elif(StartChoice > 1 and ((StartChoice + NoOfWords - 1) <= len(GlobalDictionary[ListName]))):
+                    RandomWordList = GlobalDictionary[ListName][StartChoice-1:StartChoice+NoOfWords-1]
+                    break
+                else:
+                    print("\nInvalid choice! Enter a number less than or equal to {}".format((len(GlobalDictionary[ListName]) - NoOfWords + 1)))
+                    StartChoice = input("\nWhere do you want to start from (Leave empty for beginning): ")
+            else:
+                print("\nInvalid choice! Enter numerical input or blank.")
+                StartChoice = input("\nWhere do you want to start from (Leave empty for beginning): ")
     
     try:
         f = open(TestedWordsList, 'r')
@@ -235,7 +260,7 @@ def Learn():
     
     ListChoice = input("\nEnter your choice: ")
     while True:
-        if ListChoice.isnumeric(): #type: ignore
+        if ListChoice.isnumeric():
             ListChoice = int(ListChoice)
             if(ListChoice > 0 and ListChoice <= len(Lists)):
                 break
@@ -245,6 +270,21 @@ def Learn():
         else:
             print("\nInvalid choice! Enter numerical input.")
             ListChoice = input("\nEnter your choice: ")
+    
+    print("\nSelect order of words:\n\n1. Random Order\n2. Serial Order")
+    
+    OrderChoice = input("\nEnter your choice: ")
+    while True:
+        if OrderChoice.isnumeric():
+            OrderChoice = int(OrderChoice)
+            if(OrderChoice > 0 and OrderChoice <= 2):
+                break
+            else:
+                print("\nInvalid choice! Enter a number less than or equal to {}".format(2))
+                OrderChoice = input("\nEnter your choice: ")
+        else:
+            print("\nInvalid choice! Enter numerical input.")
+            OrderChoice = input("\nEnter your choice: ")
     
     NoOfWords = input("\nHow many words do you want to revise : ")
     while True:
@@ -259,7 +299,7 @@ def Learn():
             print("\nInvalid choice! Enter numerical input.")
             NoOfWords = input("\nHow many words do you want to revise : ")
 
-    InteractiveLearner(Lists[ListChoice-1], NoOfWords)
+    InteractiveLearner(Lists[ListChoice-1], NoOfWords, OrderChoice)
     return
 
 def SaveTestScores(TestName,Score,TimeTaken,TimeStamp):
@@ -897,7 +937,8 @@ def Stats(DaysPassed = None,streak = None,max_streak = None, streak_days = []):
         plt.show()
         print("\nPress Enter to continue")
     else:
-        pass
+        ClearOutput()
+        return
     input()
     ClearOutput()
     return
@@ -1059,7 +1100,7 @@ def main():
             elif choice == 8:
                 VocabularyLength()
             elif choice == 9:
-                Stats(DaysPassed,StatsStreak,StatsMaxStreak, StatsStreakDays)
+                Stats(DaysPassed+1,StatsStreak,StatsMaxStreak, StatsStreakDays)
             elif choice == 10:
                 ClearOutput()
                 sys.exit()

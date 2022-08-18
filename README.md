@@ -124,6 +124,8 @@
 - [x] Add feature to save test scores
 - [x] Ability to remove words from TestedWords.json
 - [x] Charts to compare performance
+- [x] Add serial revision
+- [ ] Add finding definition for an individual word
 - [ ] Create %tile score based on performance
 - [ ] Universities available with the score range
 
