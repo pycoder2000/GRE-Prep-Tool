@@ -919,10 +919,12 @@ def Stats(DaysPassed = None,streak = None,max_streak = None, streak_days = []):
     print("\n  Your highest streak is {} days.".format(max_streak))
     print("\n-----------------------------------\n")
     StreakCalendar(streak_days)
+    input()
     print("\n-----------------------------------\n")
     print(tabulate(scores, headers=headers, tablefmt='fancy_grid'))
     print("\n-----------------------------------\n")
     print("Your average score is {}%".format(round(sum(NormalizedScores) / len(NormalizedScores), 2)))
+    input()
     choice = input("\nWould you like to see your scores in a graph? (Y/N) : ").lower()
     if choice == "y":
         plt.theme('dark')
