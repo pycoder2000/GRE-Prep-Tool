@@ -1,3 +1,4 @@
+from typing import List
 import requests
 import random
 import json
@@ -259,15 +260,20 @@ def Learn():
     
     for i in range(len(Lists)):
         print(str(i+1) + ". " + Lists[i])
+    print("8. Exit")
     
     ListChoice = input("\nEnter your choice: ")
     while True:
         if ListChoice.isnumeric():
             ListChoice = int(ListChoice)
-            if(ListChoice > 0 and ListChoice <= len(Lists)):
-                break
+            if(ListChoice > 0 and ListChoice <= (len(Lists) + 1)):
+                if(ListChoice == 8):
+                    ClearOutput()
+                    return
+                else:
+                    break
             else:
-                print("\nInvalid choice! Enter a number less than or equal to {}".format(len(Lists)))
+                print("\nInvalid choice! Enter a number less than or equal to {}".format((len(Lists) + 1)))
                 ListChoice = input("\nEnter your choice: ")
         else:
             print("\nInvalid choice! Enter numerical input.")
@@ -920,30 +926,30 @@ def Stats(DaysPassed = None,streak = None,max_streak = None, streak_days = []):
     print("\n-----------------------------------\n")
     StreakCalendar(streak_days)
     input()
-    print("\n-----------------------------------\n")
-    print(tabulate(scores, headers=headers, tablefmt='fancy_grid'))
-    print("\n-----------------------------------\n")
-    print("Your average score is {}%".format(round(sum(NormalizedScores) / len(NormalizedScores), 2)))
-    input()
-    choice = input("\nWould you like to see your scores in a graph? (Y/N) : ").lower()
-    if choice == "y":
-        plt.theme('dark')
-        ymin, ymax = min(NormalizedScores), max(NormalizedScores)
-        plt.scatter(Days, NormalizedScores, marker='☯',color=118)
-        plt.title("Performance Chart")
-        plt.ylim(ymin, 1.05 * ymax)
-        plt.xlim(0, 32)
-        monthString = datetime.datetime.now().strftime("%B")
-        plt.xlabel('Scores for {}'.format(monthString))
-        xticks = [int(x) for x in range(1, 32, 2)]
-        xlabels = [("Day {}").format(x) for x in range(1, 32, 2)]
-        plt.xticks(xticks, xlabels)
-        plt.show()
-        print("\nPress Enter to continue")
-    else:
-        ClearOutput()
-        return
-    input()
+    if NormalizedScores != []:
+        print("\n-----------------------------------\n")
+        print(tabulate(scores, headers=headers, tablefmt='fancy_grid'))
+        print("\n-----------------------------------\n")
+        print("Your average score is {}%".format(round(sum(NormalizedScores) / len(NormalizedScores), 2)))
+        input()
+        choice = input("\nWould you like to see your scores in a graph? (Y/N) : ").lower()
+        if choice == "y":
+            plt.theme('dark')
+            ymin, ymax = min(NormalizedScores), max(NormalizedScores)
+            plt.scatter(Days, NormalizedScores, marker='☯',color=118)
+            plt.title("Performance Chart")
+            plt.ylim(ymin, 1.05 * ymax)
+            plt.xlim(0, 32)
+            monthString = datetime.datetime.now().strftime("%B")
+            plt.xlabel('Scores for {}'.format(monthString))
+            xticks = [int(x) for x in range(1, 32, 2)]
+            xlabels = [("Day {}").format(x) for x in range(1, 32, 2)]
+            plt.xticks(xticks, xlabels)
+            plt.show()
+            input("\nPress Enter to continue")
+        else:
+            ClearOutput()
+            return
     ClearOutput()
     return
 
