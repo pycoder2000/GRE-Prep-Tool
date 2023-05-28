@@ -1,5 +1,5 @@
 beautifulsoup4==4.11.1
-requests==2.27.1
+requests==2.31.0
 tabulate==0.8.10
 plotext==5.0.2
 pytz==2022.2.1
